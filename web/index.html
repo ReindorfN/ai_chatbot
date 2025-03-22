@@ -31,8 +31,35 @@
 
   <title>ai_chatbot</title>
   <link rel="manifest" href="manifest.json">
+
+  <script>
+    // Defining environment variables for web
+    window.env = {
+      OPENAI_API_KEY: "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"
+    };
+  </script>
+
+  <script>
+    var serviceWorkerVersion = null;
+  </script>
+  <!-- This script adds the flutter initialization JS code -->
+  <script src="flutter.js" defer></script>
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+  <script>
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            appRunner.runApp();
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>
