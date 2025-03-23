@@ -16,6 +16,30 @@ class _ChatScreenState extends State<ChatScreen> {
   final ChatService _chatService = ChatService();
   bool _isLoading = false;
 
+  void _showDisclaimer() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Disclaimer'),
+          content: const Text(
+            'This chatbot uses a free AI model that may not provide the most accurate or coherent responses. '
+            'The responses are generated based on the model\'s training data and may not always be relevant '
+            'or helpful. Please use this for educational purposes only.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('I Understand'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _sendMessage() async {
     if (_messageController.text.trim().isEmpty) return;
 
@@ -46,6 +70,17 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('AI Chatbot'),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: _showDisclaimer,
+            tooltip: 'Disclaimer',
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Expanded(
