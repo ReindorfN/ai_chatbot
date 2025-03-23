@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'screens/chat_screen.dart';
@@ -8,8 +9,15 @@ import 'services/navigation_service.dart';
 // import 'dart:io' show Platform;
 // import 'package:flutter/foundation.dart' show kIsWeb;
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    await dotenv.load(fileName: "assets/.env");
+  } catch (e) {
+    print('Error loading .env file: $e');
+  }
+
   runApp(const MyApp());
 }
 

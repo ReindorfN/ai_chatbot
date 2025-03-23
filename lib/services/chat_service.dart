@@ -1,12 +1,20 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/message.dart';
 
 class ChatService {
   final String baseUrl =
       'https://api-inference.huggingface.co/models/facebook/opt-125m';
-  // Replace this with your token from Hugging Face
-  final String token = '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';
+
+  String get _apiKey {
+    final key = dotenv.env['HUGGING_FACE_API_KEY'];
+    if (key == null || key.isEmpty) {
+      throw Exception(
+          'Hugging Face API key not found in environment variables');
+    }
+    return key;
+  }
 
   Future<String> sendMessage(String message) async {
     int maxRetries = 3;
@@ -23,7 +31,7 @@ class ChatService {
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
+            'Authorization': 'Bearer $_apiKey',
           },
           body: jsonEncode({
             'inputs': message,
